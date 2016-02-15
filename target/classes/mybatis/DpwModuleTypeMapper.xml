@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwModuleTypeDao">
+	<resultMap id="dpwModuleTypeMapper" type="com.wangku.dpl.domain.DpwModuleType">
+			<result property="id" column="id" />
+			<result property="name" column="name" />
+			<result property="code" column="code" />
+			<result property="snapshot" column="snapshot" />
+			<result property="description" column="description" />
+			<result property="fileLocation" column="file_location" />
+			<result property="permission" column="permission" />
+			<result property="useTimes" column="use_times" />
+			<result property="boot" column="boot" />
+			<result property="deleteStatus" column="delete_status" />
+			<result property="memberRole" column="member_role" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwModuleTypeMapper" >
+		select * from dpw_module_type
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_module_type record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 name, 
+			 code, 
+			 snapshot, 
+			 description, 
+			 file_location, 
+			 permission, 
+			 use_times, 
+			 boot, 
+			 delete_status, 
+			 member_role 
+			FROM dpw_module_type record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ and record.name  = #{entity.name ]]>
+				</if>
+				<if test = "entity.code != null and entity.code != ''">
+					<![CDATA[ and record.code  = #{entity.code ]]>
+				</if>
+				<if test = "entity.snapshot != null and entity.snapshot != ''">
+					<![CDATA[ and record.snapshot  = #{entity.snapshot ]]>
+				</if>
+				<if test = "entity.description != null and entity.description != ''">
+					<![CDATA[ and record.description  = #{entity.description ]]>
+				</if>
+				<if test = "entity.fileLocation != null and entity.fileLocation != ''">
+					<![CDATA[ and record.file_location  = #{entity.fileLocation ]]>
+				</if>
+				<if test = "entity.permission != null and entity.permission != ''">
+					<![CDATA[ and record.permission  = #{entity.permission ]]>
+				</if>
+				<if test = "entity.useTimes != null and entity.useTimes != ''">
+					<![CDATA[ and record.use_times  = #{entity.useTimes ]]>
+				</if>
+				<if test = "entity.boot != null and entity.boot != ''">
+					<![CDATA[ and record.boot  = #{entity.boot ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+				<if test = "entity.memberRole != null and entity.memberRole != ''">
+					<![CDATA[ and record.member_role  = #{entity.memberRole ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwModuleType">
+		insert into dpw_module_type(
+				id,
+				name,
+				code,
+				snapshot,
+				description,
+				file_location,
+				permission,
+				use_times,
+				boot,
+				delete_status,
+				member_role
+		)values(
+				#{id},
+				#{name},
+				#{code},
+				#{snapshot},
+				#{description},
+				#{fileLocation},
+				#{permission},
+				#{useTimes},
+				#{boot},
+				#{deleteStatus},
+				#{memberRole}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_module_type record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "name != null and name != ''">
+					record.name = #{name},
+				</if>
+				<if test = "code != null and code != ''">
+					record.code = #{code},
+				</if>
+				<if test = "snapshot != null and snapshot != ''">
+					record.snapshot = #{snapshot},
+				</if>
+				<if test = "description != null and description != ''">
+					record.description = #{description},
+				</if>
+				<if test = "fileLocation != null and fileLocation != ''">
+					record.file_location = #{fileLocation},
+				</if>
+				<if test = "permission != null and permission != ''">
+					record.permission = #{permission},
+				</if>
+				<if test = "useTimes != null and useTimes != ''">
+					record.use_times = #{useTimes},
+				</if>
+				<if test = "boot != null and boot != ''">
+					record.boot = #{boot},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus},
+				</if>
+				<if test = "memberRole != null and memberRole != ''">
+					record.member_role = #{memberRole}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_module_type
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwModuleTypeMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>

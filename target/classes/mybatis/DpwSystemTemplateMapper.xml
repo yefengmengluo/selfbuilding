@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwSystemTemplateDao">
+	<resultMap id="dpwSystemTemplateMapper" type="com.wangku.dpl.domain.DpwSystemTemplate">
+			<result property="id" column="id" />
+			<result property="templateType" column="template_type" />
+			<result property="frameType" column="frame_type" />
+			<result property="frameSnapshot" column="frame_snapshot" />
+			<result property="homePageSnapshot" column="home_page_snapshot" />
+			<result property="deleteStatus" column="delete_status" />
+			<result property="background" column="background" />
+			<result property="description" column="description" />
+			<result property="memberRole" column="member_role" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwSystemTemplateMapper" >
+		select * from dpw_system_template
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_system_template record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 template_type, 
+			 frame_type, 
+			 frame_snapshot, 
+			 home_page_snapshot, 
+			 delete_status, 
+			 background, 
+			 description, 
+			 member_role 
+			FROM dpw_system_template record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.templateType != null and entity.templateType != ''">
+					<![CDATA[ and record.template_type  = #{entity.templateType ]]>
+				</if>
+				<if test = "entity.frameType != null and entity.frameType != ''">
+					<![CDATA[ and record.frame_type  = #{entity.frameType ]]>
+				</if>
+				<if test = "entity.frameSnapshot != null and entity.frameSnapshot != ''">
+					<![CDATA[ and record.frame_snapshot  = #{entity.frameSnapshot ]]>
+				</if>
+				<if test = "entity.homePageSnapshot != null and entity.homePageSnapshot != ''">
+					<![CDATA[ and record.home_page_snapshot  = #{entity.homePageSnapshot ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+				<if test = "entity.background != null and entity.background != ''">
+					<![CDATA[ and record.background  = #{entity.background ]]>
+				</if>
+				<if test = "entity.description != null and entity.description != ''">
+					<![CDATA[ and record.description  = #{entity.description ]]>
+				</if>
+				<if test = "entity.memberRole != null and entity.memberRole != ''">
+					<![CDATA[ and record.member_role  = #{entity.memberRole ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwSystemTemplate">
+		insert into dpw_system_template(
+				id,
+				template_type,
+				frame_type,
+				frame_snapshot,
+				home_page_snapshot,
+				delete_status,
+				background,
+				description,
+				member_role
+		)values(
+				#{id},
+				#{templateType},
+				#{frameType},
+				#{frameSnapshot},
+				#{homePageSnapshot},
+				#{deleteStatus},
+				#{background},
+				#{description},
+				#{memberRole}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_system_template record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "templateType != null and templateType != ''">
+					record.template_type = #{templateType},
+				</if>
+				<if test = "frameType != null and frameType != ''">
+					record.frame_type = #{frameType},
+				</if>
+				<if test = "frameSnapshot != null and frameSnapshot != ''">
+					record.frame_snapshot = #{frameSnapshot},
+				</if>
+				<if test = "homePageSnapshot != null and homePageSnapshot != ''">
+					record.home_page_snapshot = #{homePageSnapshot},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus},
+				</if>
+				<if test = "background != null and background != ''">
+					record.background = #{background},
+				</if>
+				<if test = "description != null and description != ''">
+					record.description = #{description},
+				</if>
+				<if test = "memberRole != null and memberRole != ''">
+					record.member_role = #{memberRole}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_system_template
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwSystemTemplateMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwChannelDao">
+	<resultMap id="dpwChannelMapper" type="com.wangku.dpl.domain.DpwChannel">
+			<result property="id" column="id" />
+			<result property="templateId" column="template_id" />
+			<result property="typeId" column="type_id" />
+			<result property="templateType" column="template_type" />
+			<result property="name" column="name" />
+			<result property="display" column="display" />
+			<result property="sort" column="sort" />
+			<result property="layoutCode" column="layout_code" />
+			<result property="deleteStatus" column="delete_status" />
+			<result property="siteId" column="site_id" />
+			<result property="createTime" column="create_time" />
+			<result property="updateTime" column="update_time" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwChannelMapper" >
+		select * from dpw_channel
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_channel record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 template_id, 
+			 type_id, 
+			 template_type, 
+			 name, 
+			 display, 
+			 sort, 
+			 layout_code, 
+			 delete_status, 
+			 site_id, 
+			 create_time, 
+			 update_time 
+			FROM dpw_channel record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.templateId != null and entity.templateId != ''">
+					<![CDATA[ and record.template_id  = #{entity.templateId ]]>
+				</if>
+				<if test = "entity.typeId != null and entity.typeId != ''">
+					<![CDATA[ and record.type_id  = #{entity.typeId ]]>
+				</if>
+				<if test = "entity.templateType != null and entity.templateType != ''">
+					<![CDATA[ and record.template_type  = #{entity.templateType ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ and record.name  = #{entity.name ]]>
+				</if>
+				<if test = "entity.display != null and entity.display != ''">
+					<![CDATA[ and record.display  = #{entity.display ]]>
+				</if>
+				<if test = "entity.sort != null and entity.sort != ''">
+					<![CDATA[ and record.sort  = #{entity.sort ]]>
+				</if>
+				<if test = "entity.layoutCode != null and entity.layoutCode != ''">
+					<![CDATA[ and record.layout_code  = #{entity.layoutCode ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+				<if test = "entity.siteId != null and entity.siteId != ''">
+					<![CDATA[ and record.site_id  = #{entity.siteId ]]>
+				</if>
+				<if test = "entity.createTime != null and entity.createTime != ''">
+					<![CDATA[ and record.create_time  = #{entity.createTime ]]>
+				</if>
+				<if test = "entity.updateTime != null and entity.updateTime != ''">
+					<![CDATA[ and record.update_time  = #{entity.updateTime ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwChannel">
+		insert into dpw_channel(
+				id,
+				template_id,
+				type_id,
+				template_type,
+				name,
+				display,
+				sort,
+				layout_code,
+				delete_status,
+				site_id,
+				create_time,
+				update_time
+		)values(
+				#{id},
+				#{templateId},
+				#{typeId},
+				#{templateType},
+				#{name},
+				#{display},
+				#{sort},
+				#{layoutCode},
+				#{deleteStatus},
+				#{siteId},
+				#{createTime},
+				#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_channel record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "templateId != null and templateId != ''">
+					record.template_id = #{templateId},
+				</if>
+				<if test = "typeId != null and typeId != ''">
+					record.type_id = #{typeId},
+				</if>
+				<if test = "templateType != null and templateType != ''">
+					record.template_type = #{templateType},
+				</if>
+				<if test = "name != null and name != ''">
+					record.name = #{name},
+				</if>
+				<if test = "display != null and display != ''">
+					record.display = #{display},
+				</if>
+				<if test = "sort != null and sort != ''">
+					record.sort = #{sort},
+				</if>
+				<if test = "layoutCode != null and layoutCode != ''">
+					record.layout_code = #{layoutCode},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus},
+				</if>
+				<if test = "siteId != null and siteId != ''">
+					record.site_id = #{siteId},
+				</if>
+				<if test = "createTime != null and createTime != ''">
+					record.create_time = #{createTime},
+				</if>
+				<if test = "updateTime != null and updateTime != ''">
+					record.update_time = #{updateTime}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_channel
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwChannelMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>

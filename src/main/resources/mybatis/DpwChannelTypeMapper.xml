@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwChannelTypeDao">
+	<resultMap id="dpwChannelTypeMapper" type="com.wangku.dpl.domain.DpwChannelType">
+			<result property="id" column="id" />
+			<result property="name" column="name" />
+			<result property="type" column="type" />
+			<result property="permission" column="permission" />
+			<result property="deleteStatus" column="delete_status" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwChannelTypeMapper" >
+		select * from dpw_channel_type
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_channel_type record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 name, 
+			 type, 
+			 permission, 
+			 delete_status 
+			FROM dpw_channel_type record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ and record.name  = #{entity.name ]]>
+				</if>
+				<if test = "entity.type != null and entity.type != ''">
+					<![CDATA[ and record.type  = #{entity.type ]]>
+				</if>
+				<if test = "entity.permission != null and entity.permission != ''">
+					<![CDATA[ and record.permission  = #{entity.permission ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwChannelType">
+		insert into dpw_channel_type(
+				id,
+				name,
+				type,
+				permission,
+				delete_status
+		)values(
+				#{id},
+				#{name},
+				#{type},
+				#{permission},
+				#{deleteStatus}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_channel_type record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "name != null and name != ''">
+					record.name = #{name},
+				</if>
+				<if test = "type != null and type != ''">
+					record.type = #{type},
+				</if>
+				<if test = "permission != null and permission != ''">
+					record.permission = #{permission},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_channel_type
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwChannelTypeMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>

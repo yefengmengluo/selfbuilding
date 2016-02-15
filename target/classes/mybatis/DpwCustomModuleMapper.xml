@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwCustomModuleDao">
+	<resultMap id="dpwCustomModuleMapper" type="com.wangku.dpl.domain.DpwCustomModule">
+			<result property="id" column="id" />
+			<result property="customTitle" column="custom_title" />
+			<result property="customContent" column="custom_content" />
+			<result property="moduleId" column="module_id" />
+			<result property="status" column="status" />
+			<result property="corporationName" column="corporation_name" />
+			<result property="createTime" column="create_time" />
+			<result property="updateTime" column="update_time" />
+			<result property="deleteStatus" column="delete_status" />
+			<result property="disableReason" column="disable_reason" />
+			<result property="disableType" column="disable_type" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwCustomModuleMapper" >
+		select * from dpw_custom_module
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_custom_module record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 custom_title, 
+			 custom_content, 
+			 module_id, 
+			 status, 
+			 corporation_name, 
+			 create_time, 
+			 update_time, 
+			 delete_status, 
+			 disable_reason, 
+			 disable_type 
+			FROM dpw_custom_module record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.customTitle != null and entity.customTitle != ''">
+					<![CDATA[ and record.custom_title  = #{entity.customTitle ]]>
+				</if>
+				<if test = "entity.customContent != null and entity.customContent != ''">
+					<![CDATA[ and record.custom_content  = #{entity.customContent ]]>
+				</if>
+				<if test = "entity.moduleId != null and entity.moduleId != ''">
+					<![CDATA[ and record.module_id  = #{entity.moduleId ]]>
+				</if>
+				<if test = "entity.status != null and entity.status != ''">
+					<![CDATA[ and record.status  = #{entity.status ]]>
+				</if>
+				<if test = "entity.corporationName != null and entity.corporationName != ''">
+					<![CDATA[ and record.corporation_name  = #{entity.corporationName ]]>
+				</if>
+				<if test = "entity.createTime != null and entity.createTime != ''">
+					<![CDATA[ and record.create_time  = #{entity.createTime ]]>
+				</if>
+				<if test = "entity.updateTime != null and entity.updateTime != ''">
+					<![CDATA[ and record.update_time  = #{entity.updateTime ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+				<if test = "entity.disableReason != null and entity.disableReason != ''">
+					<![CDATA[ and record.disable_reason  = #{entity.disableReason ]]>
+				</if>
+				<if test = "entity.disableType != null and entity.disableType != ''">
+					<![CDATA[ and record.disable_type  = #{entity.disableType ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwCustomModule">
+		insert into dpw_custom_module(
+				id,
+				custom_title,
+				custom_content,
+				module_id,
+				status,
+				corporation_name,
+				create_time,
+				update_time,
+				delete_status,
+				disable_reason,
+				disable_type
+		)values(
+				#{id},
+				#{customTitle},
+				#{customContent},
+				#{moduleId},
+				#{status},
+				#{corporationName},
+				#{createTime},
+				#{updateTime},
+				#{deleteStatus},
+				#{disableReason},
+				#{disableType}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_custom_module record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "customTitle != null and customTitle != ''">
+					record.custom_title = #{customTitle},
+				</if>
+				<if test = "customContent != null and customContent != ''">
+					record.custom_content = #{customContent},
+				</if>
+				<if test = "moduleId != null and moduleId != ''">
+					record.module_id = #{moduleId},
+				</if>
+				<if test = "status != null and status != ''">
+					record.status = #{status},
+				</if>
+				<if test = "corporationName != null and corporationName != ''">
+					record.corporation_name = #{corporationName},
+				</if>
+				<if test = "createTime != null and createTime != ''">
+					record.create_time = #{createTime},
+				</if>
+				<if test = "updateTime != null and updateTime != ''">
+					record.update_time = #{updateTime},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus},
+				</if>
+				<if test = "disableReason != null and disableReason != ''">
+					record.disable_reason = #{disableReason},
+				</if>
+				<if test = "disableType != null and disableType != ''">
+					record.disable_type = #{disableType}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_custom_module
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwCustomModuleMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>

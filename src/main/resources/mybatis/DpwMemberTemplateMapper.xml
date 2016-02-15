@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangku.dpl.dao.DpwMemberTemplateDao">
+	<resultMap id="dpwMemberTemplateMapper" type="com.wangku.dpl.domain.DpwMemberTemplate">
+			<result property="id" column="id" />
+			<result property="siteId" column="site_id" />
+			<result property="systemTemplateId" column="system_template_id" />
+			<result property="skinId" column="skin_id" />
+			<result property="saveTime" column="save_time" />
+			<result property="saveType" column="save_type" />
+			<result property="boot" column="boot" />
+			<result property="useTimes" column="use_times" />
+			<result property="deleteStatus" column="delete_status" />
+			<result property="seoTitle" column="seo_title" />
+			<result property="seoKeywords" column="seo_keywords" />
+			<result property="seoDescription" column="seo_description" />
+			<result property="background" column="background" />
+			<result property="createTime" column="create_time" />
+	</resultMap>
+	
+	<select id="queryById" resultMap="dpwMemberTemplateMapper" >
+		select * from dpw_member_template
+		where id = #{id}
+	</select>
+
+	<sql id="count_Tail">
+		select count(1) from dpw_member_template record
+	</sql>
+
+	<sql id="pagination_tail">
+	  limit #{page.pageOffset} , #{page.rows}
+	</sql>
+
+	<sql id="selectAllColumns">
+		<![CDATA[
+		SELECT
+			 id, 
+			 site_id, 
+			 system_template_id, 
+			 skin_id, 
+			 save_time, 
+			 save_type, 
+			 boot, 
+			 use_times, 
+			 delete_status, 
+			 seo_title, 
+			 seo_keywords, 
+			 seo_description, 
+			 background, 
+			 create_time 
+			FROM dpw_member_template record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		where 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null and entity.id != ''">
+					<![CDATA[ and record.id  = #{entity.id ]]>
+				</if>
+				<if test = "entity.siteId != null and entity.siteId != ''">
+					<![CDATA[ and record.site_id  = #{entity.siteId ]]>
+				</if>
+				<if test = "entity.systemTemplateId != null and entity.systemTemplateId != ''">
+					<![CDATA[ and record.system_template_id  = #{entity.systemTemplateId ]]>
+				</if>
+				<if test = "entity.skinId != null and entity.skinId != ''">
+					<![CDATA[ and record.skin_id  = #{entity.skinId ]]>
+				</if>
+				<if test = "entity.saveTime != null and entity.saveTime != ''">
+					<![CDATA[ and record.save_time  = #{entity.saveTime ]]>
+				</if>
+				<if test = "entity.saveType != null and entity.saveType != ''">
+					<![CDATA[ and record.save_type  = #{entity.saveType ]]>
+				</if>
+				<if test = "entity.boot != null and entity.boot != ''">
+					<![CDATA[ and record.boot  = #{entity.boot ]]>
+				</if>
+				<if test = "entity.useTimes != null and entity.useTimes != ''">
+					<![CDATA[ and record.use_times  = #{entity.useTimes ]]>
+				</if>
+				<if test = "entity.deleteStatus != null and entity.deleteStatus != ''">
+					<![CDATA[ and record.delete_status  = #{entity.deleteStatus ]]>
+				</if>
+				<if test = "entity.seoTitle != null and entity.seoTitle != ''">
+					<![CDATA[ and record.seo_title  = #{entity.seoTitle ]]>
+				</if>
+				<if test = "entity.seoKeywords != null and entity.seoKeywords != ''">
+					<![CDATA[ and record.seo_keywords  = #{entity.seoKeywords ]]>
+				</if>
+				<if test = "entity.seoDescription != null and entity.seoDescription != ''">
+					<![CDATA[ and record.seo_description  = #{entity.seoDescription ]]>
+				</if>
+				<if test = "entity.background != null and entity.background != ''">
+					<![CDATA[ and record.background  = #{entity.background ]]>
+				</if>
+				<if test = "entity.createTime != null and entity.createTime != ''">
+					<![CDATA[ and record.create_time  = #{entity.createTime ]]>
+				</if>
+		</if>
+	</sql>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.wangku.dpl.domain.DpwMemberTemplate">
+		insert into dpw_member_template(
+				id,
+				site_id,
+				system_template_id,
+				skin_id,
+				save_time,
+				save_type,
+				boot,
+				use_times,
+				delete_status,
+				seo_title,
+				seo_keywords,
+				seo_description,
+				background,
+				create_time
+		)values(
+				#{id},
+				#{siteId},
+				#{systemTemplateId},
+				#{skinId},
+				#{saveTime},
+				#{saveType},
+				#{boot},
+				#{useTimes},
+				#{deleteStatus},
+				#{seoTitle},
+				#{seoKeywords},
+				#{seoDescription},
+				#{background},
+				#{createTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update dpw_member_template record set
+				<if test = "id != null and id != ''">
+					record.id = #{id},
+				</if>
+				<if test = "siteId != null and siteId != ''">
+					record.site_id = #{siteId},
+				</if>
+				<if test = "systemTemplateId != null and systemTemplateId != ''">
+					record.system_template_id = #{systemTemplateId},
+				</if>
+				<if test = "skinId != null and skinId != ''">
+					record.skin_id = #{skinId},
+				</if>
+				<if test = "saveTime != null and saveTime != ''">
+					record.save_time = #{saveTime},
+				</if>
+				<if test = "saveType != null and saveType != ''">
+					record.save_type = #{saveType},
+				</if>
+				<if test = "boot != null and boot != ''">
+					record.boot = #{boot},
+				</if>
+				<if test = "useTimes != null and useTimes != ''">
+					record.use_times = #{useTimes},
+				</if>
+				<if test = "deleteStatus != null and deleteStatus != ''">
+					record.delete_status = #{deleteStatus},
+				</if>
+				<if test = "seoTitle != null and seoTitle != ''">
+					record.seo_title = #{seoTitle},
+				</if>
+				<if test = "seoKeywords != null and seoKeywords != ''">
+					record.seo_keywords = #{seoKeywords},
+				</if>
+				<if test = "seoDescription != null and seoDescription != ''">
+					record.seo_description = #{seoDescription},
+				</if>
+				<if test = "background != null and background != ''">
+					record.background = #{background},
+				</if>
+				<if test = "createTime != null and createTime != ''">
+					record.create_time = #{createTime}
+				</if>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dpw_member_template
+		<if test=" codes != null and codes.size() > 0 ">
+			where id in
+			<foreach collection="codes" open="(" separator="," close=")" item="code">
+				#{code}
+			</foreach>
+		</if>
+		<if test=" codes == null or codes.size() == 0 ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="queryCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+	
+	<select id="queryList" resultMap="dpwMemberTemplateMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="page!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+</mapper>
